@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>service</title>
+</head>
+<body >
+{% extends 'layout.html' %}
+{% block content %}
+<h2 >Our Service Pricing</h2>
+<table border="1">
+    <tr>
+        <th>item</th>
+        <th>photo</th>
+        <th>price(ksh)</th>
+        <th>quantity(kg)</th>
+        <th>location(shop)</th>
+    </tr>
+    <tr>
+        <td>chocolate cake</td>
+        <td><img src="../static/images/slide1.jpeg "  alt="cake" width="70" height="55"></td>
+        <td>1000</td>
+        <td>0.5</td>
+        <td>Tuskys</td>
+    </tr>
+    <tr>
+        <td>chocolate cake</td>
+        <td><img src="../static/images/a.jpeg "  alt="cake" width="70" height="55"></td>
+        <td>150</td>
+        <td>0.025</td>
+        <td>Quickmart</td>
+    </tr>
+    <tr>
+        <td>chocolate</td>
+        <td><img src="../static/images/slide2.jpeg "  alt="cake" width="70" height="55"></td>
+        <td>4586</td>
+        <td>2</td>
+        <td>Nakumatt</td>
+    </tr>
+    <tr>
+        <td>cookies</td>
+        <td><img src="../static/images/c.jpeg "  alt="cake" width="70" height="55"></td>
+        <td>2100</td>
+        <td>1</td>
+        <td>Naivas</td>
+    </tr>
+</table>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>contact us</title>
+</head>
+<body >
+
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="form1">
+<fieldset>
+<legend>form example</legend>
+    <form>
+
+    username: <br/>
+    <input type="text" name="username">
+    <br/>
+    email: <br/>
+    <input type="email" name="email">
+    <br/>
+      ID: <br/>
+    <input type="number" name="id_no">
+    <br/>
+    phone no: <br/>
+    <input type="tel" name="phone_no">
+    <br/>
+        gender: <br/>
+    <input type="radio" name="gender">female
+        <input type="radio" name="gender">male
+    <br/>
+        hobbies:<br/>
+        <input type="checkbox"><label>cooking</label>
+         <input type="checkbox"><label>movies</label>
+         <input type="checkbox"><label>music</label>
+         <input type="checkbox"><label>sports</label>
+         <input type="checkbox"><label>board games</label>
+         <input type="checkbox"><label>reading</label><br/>
+
+
+       upload cv: <br/>
+    <input type="file" name="cv">
+    <br/>
+
+        pick your town: <br>
+        <select name="town" id="">
+            <option value="NRB">Nairobi</option>
+             <option value="MSA">Mombasa</option>
+             <option value="ELD">Eldoret</option><br>
+
+        </select>
+    password: <br/>
+    <input type="password" name="password" >
+    <br/>
+        Re-enter password: <br/>
+    <input type="password" name="password">
+    <br/>
+        comments:<br/>
+    <textarea></textarea>
+    <br/>
+        date:<br/>
+        <input type="datetime-local" name="date"><br/>
+
+  <input type="submit">  <input type="reset">
+    <br/>
+    </form>
+
+</fieldset>
+    </div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,77 @@
+body{
+        background-color: mistyrose;
+    }
+      header { color: saddlebrown;
+          font-size: 30px;
+          background-color: mistyrose;
+          font-family: Verdana,arial;
+          font-weight: bold;
+          font-style: oblique;
+          text-align: center;
+        }
+        h3 {
+            color: #000;
+            text-align: center;
+            font-style: italic;
+        }
+    a{
+        color: saddlebrown;
+        padding: 1%;
+        background-color: darkcyan;
+
+    }
+    a:hover{
+        background-color:antiquewhite;
+    }
+
+.form1{
+        background-color: darkcyan;
+        text-align: center;
+        align-content: center;
+
+
+
+    }
+
+
+    table{
+
+        width:100%;
+        align:centre;
+        color: black;
+        background-color: darkcyan;
+        font-family: "L M Roman Caps10";
+        font-weight: bold;
+    }
+    .container {
+  width: 1200px;
+  margin: 0 auto;
+}
+    ul{
+        color: darkcyan;
+        text-align: center;
+    }
+    /* Create three equal columns that floats next to each other */
+/*classes can be used on more than 1 element. we use dot . they are preferred to ids
+
+ */
+.column {
+    float: left;
+    width: 33.33%;
+
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/* styling with ids and classes. ids we use # eg #p2
+ */
+#p2{
+  font-family: serif;
+    color:darkcyan;
+    border:saddlebrown;
+
+}
+
