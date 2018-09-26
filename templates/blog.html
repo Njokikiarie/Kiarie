@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>our blog</title>
+     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css">
+    <!-- adding animate and font awesome and a  few js files to add animation to a page-->
+<link rel="stylesheet" href="../static/bootstrap/css/font-awesome.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/animate.css">
+
+
+    <!-- LINK TO BOOTSTRAP JS, JAVASCRIPTS ADDS TO THE INTERACTIVITY OF A PAGE-->
+     <SCRIPT SRC="../static/bootstrap/js/jquery.js"></SCRIPT>
+    <script src="../static/bootstrap/js/bootstrap.js"></script>
+    <script src="../static/bootstrap/js/parallax.min.js"></script>
+<script src="../static/bootstrap/js/wow.min.js"></script>
+<script src="../static/bootstrap/js/jquery.easing.min.js"></script>
+<script src="../static/bootstrap/js/fliplightbox.min.js"></script>
+<script src="../static/bootstrap/js/functions.js"></script>
+
+</head>
+<body>
+<h1 class="text-center text-success"> Leave a Comment</h1>
+<form action="/blog"  method="post" role="form" style="padding: 5%"> <!-- action specifies where data is sent and in our case its the blog route,
+method specifies how data will be sent-we have post and get-->
+    
+    <div class="form-group"><input type="text" name="name"  placeholder="name" class="form-control"></div>
+     <div class="form-group"><input type="email" name="email"  placeholder="email" class="form-control"></div>
+    <div class="form-group"><textarea name="message" id="" cols="70" rows="10"> </textarea></div>
+    <div class="form-group"><input type="submit" class=" btn btn-success" value="Send Message">
+              <input type="reset" class="btn btn-info">
+              </div>
+</form>
+</body>
+</html>
