@@ -48,6 +48,33 @@ def index():
 
 def index2():
    return render_template('index2.html')
-#static folder  stores images,stylesheets
+
+#the application layer (business logic layer)
+
+import pymysql    #import pymsql to install on the current project
+from flask import request
+@app.route('/blog', methods=['POST','GET'])
+def blog():#logic goes her
+    #handle form data
+     if request.method=='POST': #check if user posted something
+         email=request.form['email']
+         name=request.form['name']
+         message=request.form['message']
+
+        #save the three fields to the database
+        #establish db connection
+         con=pymysql.connect("localhost","root", "","grace_db")
+
+         #execute sql -create a cursor object to execute sql.
+         cursor =con.cursor()
+         sql= "INSERT INTO `messages_tbl`(`name`,`email`,`message`) VALUES (%s,%s,%s)"  # %s protects data .
+         cursor.execute(sql,(name,email,message))
+         con.commit() #commits the changes to the db
+         return render_template('blog.html')
+     else:
+         return render_template('blog.html')
+
+
+
 if __name__ == '__main__':
     app.run()
