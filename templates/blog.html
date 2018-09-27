@@ -21,6 +21,7 @@
 </head>
 <body>
 <h1 class="text-center text-success"> Leave a Comment</h1>
+<h4 >{{ msg }}</h4> <!--jinja-->
 <form action="/blog"  method="post" role="form" style="padding: 5%"> <!-- action specifies where data is sent and in our case its the blog route,
 method specifies how data will be sent-we have post and get-->
     
@@ -31,5 +32,6 @@ method specifies how data will be sent-we have post and get-->
               <input type="reset" class="btn btn-info">
               </div>
 </form>
+
 </body>
 </html>

@@ -61,18 +61,47 @@ def blog():#logic goes her
          name=request.form['name']
          message=request.form['message']
 
-        #save the three fields to the database
+        #save the three ``fields to the database
         #establish db connection
          con=pymysql.connect("localhost","root", "","grace_db")
 
          #execute sql -create a cursor object to execute sql.
          cursor =con.cursor()
          sql= "INSERT INTO `messages_tbl`(`name`,`email`,`message`) VALUES (%s,%s,%s)"  # %s protects data .
-         cursor.execute(sql,(name,email,message))
-         con.commit() #commits the changes to the db
-         return render_template('blog.html')
+         try:
+
+             cursor.execute(sql,(name,email,message))
+             con.commit() #commits the changes to the db
+             return render_template('blog.html',msg="uploaded!")
+         except:
+             con.rollback()
      else:
          return render_template('blog.html')
+
+
+import pymysql    #import pymsql to install on the current project
+from flask import request
+@app.route('/registration' , methods=['POST','GET'])
+def registration():
+    if request.method=='POST':
+        firstname=request.form['firstname']
+        lastname=request.form['lastname']
+        email=request.form['email']
+        password=request.form['password']
+
+        con1 = pymysql.connect("localhost", "root", "", "grace_db")
+        cursor=con1.cursor()
+        sql1="INSERT INTO `registration_tbl`(`firstname`,`lastname`,`email`,`password`) VALUES (%s,%s,%s,%s)"
+        try:
+            cursor.execute(sql1,(firstname,lastname,email,password))
+            con1.commit()
+            return render_template('index3.html', message="registration successful")
+        except:
+            con1.rollback()
+    else:
+        return render_template('registration.html' )
+
+
 
 
 
