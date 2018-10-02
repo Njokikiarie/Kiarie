@@ -1,6 +1,7 @@
-from flask import Flask ,render_template   #flask-framework ,#Flask-python class
+from flask import Flask ,render_template ,flash  #flask-framework ,#Flask-python class
 
 app = Flask(__name__)
+# app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 #in flask we attach every function to a route so we use the route.
 
@@ -41,8 +42,8 @@ def about():
 
 @app.route('/')
 
-def index():
-   return render_template('index.html')
+def index3():
+   return render_template('index3.html')
 
 @app.route('/index2')
 
@@ -61,20 +62,37 @@ def blog():#logic goes her
          name=request.form['name']
          message=request.form['message']
 
-        #save the three ``fields to the database
-        #establish db connection
-         con=pymysql.connect("localhost","root", "","grace_db")
+         #validation
+         if email=="":
+             return render_template('blog.html', msg1="email field is empty")
+             #flash("email field is empty")
 
-         #execute sql -create a cursor object to execute sql.
-         cursor =con.cursor()
-         sql= "INSERT INTO `messages_tbl`(`name`,`email`,`message`) VALUES (%s,%s,%s)"  # %s protects data .
-         try:
+         if name=="":
+             #flash("name field is empty")
+             return render_template('blog.html', msg2="name field is empty")
+         if message=="":
+             #flash("name field is empty")
 
-             cursor.execute(sql,(name,email,message))
-             con.commit() #commits the changes to the db
-             return render_template('blog.html',msg="uploaded!")
-         except:
-             con.rollback()
+             return render_template('blog.html', msg3="message field is empty")
+         if len(message)<10:
+             #flash("message is too short")
+             return render_template('blog.html', msg4="message is too short")
+         else:
+             #save the three ``fields to the database
+             #establish db connection
+             con=pymysql.connect("localhost","root", "","grace_db")
+
+             #execute sql -create a cursor object to execute sql.
+             cursor =con.cursor()
+             sql= "INSERT INTO `messages_tbl`(`name`,`email`,`message`) VALUES (%s,%s,%s)"  # %s protects data .
+             try:
+
+
+                cursor.execute(sql,(name,email,message))
+                con.commit() #commits the changes to the db
+                return render_template('blog.html',msg="uploaded!")
+             except:
+               con.rollback()
      else:
          return render_template('blog.html')
 
@@ -100,6 +118,48 @@ def registration():
             con1.rollback()
     else:
         return render_template('registration.html' )
+
+#pulling records of comments posted .
+@app.route("/blogging")
+def blogging():
+    con=pymysql.connect("localhost", "root", "","grace_db")
+    cursor=con.cursor()
+
+    sql= "SELECT * FROM `messages_tbl` ORDER BY `message_time` DESC"
+    #EXECUTE SQL
+    cursor.execute(sql)
+
+    #count the returned rows
+    if cursor.rowcount < 1:
+        return render_template('blogging.html', msg= " no messages found")
+    else:
+        rows =cursor.fetchall()
+        #send the rows to the presentation layer,your html
+        return render_template('blogging.html', rows= rows)
+
+
+#searching from the database
+@app.route('/search' , methods=['POST','GET'])
+def search():
+    if request.method=='POST':
+
+        name=request.form['name']
+        con = pymysql.connect("localhost", "root", "", "grace_db")
+        cursor = con.cursor()
+
+        sql= "SELECT * FROM `messages_tbl` WHERE `name`=%s ORDER BY  `message_time` DESC "
+        cursor.execute(sql,(name))
+
+        #check if cursor has zero rows
+        if cursor.rowcount==0:
+            return render_template('search.html',msg="no messages")
+        else:
+            rows=cursor.fetchall()
+            return render_template('search.html',rows=rows)
+    else:return render_template('search.html')
+
+#the above function receives a name from the form and returns rows based on that name if they exist
+
 
 
 

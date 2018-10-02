@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>search</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css">
+</head>
+<body>
+<h1 class="jumbotron">message portal</h1>
+<section class="row">
+    <div class="col-md-3" >
+        <a href="/blog" class="btn btn-dark">Post Blog</a>
+        <a href="/index3" class="btn btn-dark">Home</a>
+
+    </div>
+    <div class="col-md-6">
+
+        <h4>{{ msg }}</h4>
+        {% for row in rows %}
+            <p class="text-muted">{{ row[3] }}</p>
+            <p class="text-right">Posted by :{{ row[1] }} on <i>{{ row[4] }}</i></p>
+            <p><a href="">delete</a>
+
+
+        {% endfor %}
+
+    </div>
+    <div class="col-md-3" >
+        <form  action="/search" method="post" >
+            <input  type="text" name="name"  placeholder="search">
+            <input type="submit" class="btn btn-dark btn-sm" value="search">
+
+        </form>
+    </div>
+
+</section>
+</body>
+</html>

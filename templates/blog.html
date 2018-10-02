@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>our blog</title>
      <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css">
+
     <!-- adding animate and font awesome and a  few js files to add animation to a page-->
 <link rel="stylesheet" href="../static/bootstrap/css/font-awesome.css">
     <link rel="stylesheet" href="../static/bootstrap/css/animate.css">
@@ -17,21 +18,89 @@
 <script src="../static/bootstrap/js/jquery.easing.min.js"></script>
 <script src="../static/bootstrap/js/fliplightbox.min.js"></script>
 <script src="../static/bootstrap/js/functions.js"></script>
-
+    <style>
+        #bottom{
+            background-color:#4e555b;
+            padding:3%;
+        }
+    </style>
 </head>
 <body>
+<section class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
 <h1 class="text-center text-success"> Leave a Comment</h1>
 <h4 >{{ msg }}</h4> <!--jinja-->
 <form action="/blog"  method="post" role="form" style="padding: 5%"> <!-- action specifies where data is sent and in our case its the blog route,
 method specifies how data will be sent-we have post and get-->
     
-    <div class="form-group"><input type="text" name="name"  placeholder="name" class="form-control"></div>
-     <div class="form-group"><input type="email" name="email"  placeholder="email" class="form-control"></div>
-    <div class="form-group"><textarea name="message" id="" cols="70" rows="10"> </textarea></div>
-    <div class="form-group"><input type="submit" class=" btn btn-success" value="Send Message">
+    <div class="form-group">
+        <input type="text" name="name"  placeholder="name" class="form-control">
+         <p class="text-danger">{{ msg2 }}</p>
+    </div>
+     <div class="form-group">
+         <input type="email" name="email"  placeholder="email" class="form-control">
+         <p class="text-danger">{{ msg1 }}</p>
+
+     </div>
+    <div class="form-group">
+        <textarea name="message" id="" cols="60" rows="7"> </textarea>
+         <p class="text-danger">{{ msg3 }}</p>
+         <p class="text-danger">{{ msg4 }}</p>
+    </div>
+    <div class="form-group">
+        <input type="submit" class=" btn btn-success" value="Send Message">
               <input type="reset" class="btn btn-info">
               </div>
-</form>
+    </form>
+</div>
+ <div class="col-md-3"></div>
 
+
+ <!--footer section-->
+</section>
+
+<section class="row " id="bottom" >
+    <div class="col-md-4">
+    <a href=""><h5 style="color: ghostwhite">About us</h5></a>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi commodi cumque et nesciunt porro quae quos recusandae similique vel. Culpa doloribus dolorum exercitationem ipsum modi odit recusandae suscipit veniam?</p>
+
+    </div>
+
+    <div class="col-md-4">
+        <h5 style="color: whitesmoke">Latest News</h5>
+    <ul class="list-group"  >
+        <il class="list-group-item" id="listing"><a href="" style="color: grey">Trends dont matter but techniques do</a></il>
+
+        <il class="list-group-item" id="listing"><a href="" style="color: gray">Trends dont matter but techniques do</a></il>
+        <il class="list-group-item" id="listing"><a href="" style="color: grey">Trends dont matter but techniques do</a></il>
+        <il class="list-group-item" id="listing" ><a href="" style="color: grey">Trends dont matter but techniques do</a></il>
+    </ul>
+    </div>
+    <div class="col-md-4"><h5 style="color: whitesmoke">Follow Us on Social Media</h5>
+     <img src="../static/images/sm.png" class="img-fluid " alt="platforms">
+    </div>
+</section>
+
+
+<footer class="row" id="footer">
+    <div class="col-md-3">
+        <copyrigt>
+            <p> @Kiarie 2018.All rights reserved <br> Designed by G</p>
+        </copyrigt>
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-3">
+
+            <nav class="nav">
+  <a class="nav-link" href="#!">home</a>
+  <a class="nav-link" href="#!">products</a>
+
+  <a class="nav-link" href="#!">contact</a>
+</nav>
+
+
+    </div>
+</footer>
 </body>
 </html>
