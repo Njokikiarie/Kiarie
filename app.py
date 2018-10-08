@@ -1,7 +1,7 @@
-from flask import Flask ,render_template ,flash  #flask-framework ,#Flask-python class
+from flask import Flask ,render_template ,flash, session  #flask-framework ,#Flask-python class
 
 app = Flask(__name__)
-# app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/?' #creating a encryption. this is called a salt,
 
 #in flask we attach every function to a route so we use the route.
 
@@ -97,8 +97,7 @@ def blog():#logic goes her
          return render_template('blog.html')
 
 
-import pymysql    #import pymsql to install on the current project
-from flask import request
+
 @app.route('/registration' , methods=['POST','GET'])
 def registration():
     if request.method=='POST':
@@ -118,24 +117,78 @@ def registration():
             con1.rollback()
     else:
         return render_template('registration.html' )
+#login route
+
+@app.route('/login' , methods=['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        con = pymysql.connect("localhost", "root", "", "grace_db")
+        cursor = con.cursor()
+        sql = "SELECT * FROM `registration_tbl` where `email`=%s and `password`=%s"
+
+        #execute sql using the cursor object
+        cursor.execute(sql,(email,password))
+        #check if a match was found or not
+        if cursor.rowcount==0:
+            return render_template("login.html" , msg1="No match .Wrong input")
+        elif cursor.rowcount==1:
+            # create a session for the user
+            #we store username in session variable, you dont store password in session
+            row = cursor.fetchone()
+
+            session['userkey'] = row[1]
+
+
+
+
+            return redirect('/blogging')
+        elif cursor.rowcount >1:
+            return render_template('login.html', msg1="try again later")
+        else:
+            return render_template('login.html', msg1="contact admin")
+
+    else:
+        #shows login page, after the route is visited
+        return render_template('login.html')
+
+#logout
+
+@app.route('/logout')
+def logout():
+    session.pop('userkey',None)
+    return redirect('login')
+
+
 
 #pulling records of comments posted .
 @app.route("/blogging")
 def blogging():
-    con=pymysql.connect("localhost", "root", "","grace_db")
-    cursor=con.cursor()
+    if 'userkey' in session:
+        #get the key value and show
+        email = session['userkey']
 
-    sql= "SELECT * FROM `messages_tbl` ORDER BY `message_time` DESC"
-    #EXECUTE SQL
-    cursor.execute(sql)
+        con=pymysql.connect("localhost", "root", "","grace_db")
+        cursor=con.cursor()
 
-    #count the returned rows
-    if cursor.rowcount < 1:
-        return render_template('blogging.html', msg= " no messages found")
-    else:
-        rows =cursor.fetchall()
-        #send the rows to the presentation layer,your html
-        return render_template('blogging.html', rows= rows)
+        sql= "SELECT * FROM `messages_tbl` ORDER BY `message_time` DESC"
+        #EXECUTE SQL
+        cursor.execute(sql)
+
+        #count the returned rows
+        if cursor.rowcount < 1:
+            return render_template('blogging.html', msg= " no messages found")
+        else:
+            rows =cursor.fetchall()
+            #send the rows to the presentation layer,your html
+            return render_template('blogging.html', rows= rows)
+    elif 'userkey' not in session:
+        return redirect('/login')
+    else:redirect('/login')
+
+
 
 
 #searching from the database
@@ -161,8 +214,72 @@ def search():
 #the above function receives a name from the form and returns rows based on that name if they exist
 
 
+con = pymysql.connect("localhost", "root", "", "grace_db")
+cursor = con.cursor()
+@app.route('/customers' , methods=['POST','GET'])
+def customers():
+    if request.method=='POST':
+
+        State=request.form['State']
+        Coverage= request.form['Coverage']
 
 
+        sql= "SELECT * FROM `customers` WHERE `State`=%s  AND `Coverage` =%s ORDER BY  `EffectiveDate` DESC "
+        cursor.execute(sql,(State ,Coverage))
+
+        #check if cursor has zero rows
+        if cursor.rowcount==0:
+            return render_template('customers.html',msg="no messages")
+        else:
+            rows=cursor.fetchall()
+            return render_template('customers.html',rows=rows)
+    else:
+        sql= "SELECT * FROM `customers`ORDER BY  `EffectiveDate` DESC "
+
+        cursor.execute(sql)
+        rows=cursor.fetchall()
+        return render_template('customers.html' , rows=rows)
+
+#deleting a blog:this route receives a message id to specify the blog to be deleted
+from flask import redirect
+@app.route('/deleteblog/<msg_id>' )
+def deleteblog(msg_id):
+    #we now delete the massage with that ID
+    con = pymysql.connect("localhost", "root", "", "grace_db")
+    cursor = con.cursor()
+    sql="Delete from messages_tbl where message_id=%s "
+    #execute sql, provide msg_id that we received.
+
+
+    try:
+        cursor.execute(sql, (msg_id))
+        con.commit()
+        return redirect('/blogging')# reloads the page
+    except:
+        con.rollback()
+        return redirect('/blogging')
+@app.route('/deleteCustomer/<nameid>' )
+def deleteCustomer(nameid):
+    #we now delete the massage with that ID
+    con = pymysql.connect("localhost", "root", "", "grace_db")
+    cursor = con.cursor()
+    sql="Delete from customers where `name`= %s "
+    #execute sql, provide msg_id that we received.
+
+
+    try:
+        cursor.execute(sql,(nameid))
+        con.commit()
+        sql = "SELECT * FROM `customers`ORDER BY  `EffectiveDate` DESC "
+
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+
+        return render_template('/customers.html', msg2= nameid+" ,deleted" , rows=rows)
+
+    except:
+        con.rollback()
+        return redirect('/customers')
 
 
 if __name__ == '__main__':

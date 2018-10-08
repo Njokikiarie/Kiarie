@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>customers</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css">
+</head>
+<body style="background: darkcyan">
+<h3 class="jumbotron text-center">Customer Records</h3>
+<a href="/blog" class="btn btn-dark">add customer</a>
+<a href="/" class="btn btn-dark">Home</a>
+<br>
+
+<section class="row">
+   <div class="col-md-3">TODO</div>
+    <div class="col-md-6">
+        <h5 class="text-danger text-center">{{ msg }}</h5>
+
+
+
+
+            <table border="1" class="table">
+
+
+            <tr>
+                <th>Name</th>
+                <th>State</th>
+                <th>Education</th>
+                <th>Income</th>
+                <th>Gender</th>
+                <th>Coverage</th>
+
+
+            </tr>
+
+
+            {% for row in rows %}
+                <tr>
+
+                <td>{{ row[0] }}</td>
+
+                <td>{{ row[1] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[9] }}</td>
+                <td>{{ row[8] }}</td>
+                <td>{{ row[7] }}</td>
+                <td><a href="/deleteCustomer/{{ row[0] }}" onclick= "return confirm('are you sure?')">delete</a></td>
+                </tr>
+            {% endfor %}
+            </table>
+                <hr>
+
+    </div>
+
+<div class="col-md-3">
+
+    <form  action="/customers" method="post" >
+
+        <select name="State">
+             <option value="" class="active">State</option>
+            <option value="Arizona">Arizona</option>
+            <option value="Oregon" >Oregon</option>
+            <option value="Nevada">Nevada</option>
+            <option value="California">California</option>
+            <option value="Washington">Washington</option>
+
+        </select>
+
+        <select name="Coverage">
+             <option class="active">Coverage</option>
+            <option value="Basic" >Basic</option>
+            <option value="Extended" >Extended</option>
+             <option value="Premium" >Premium</option>
+
+
+
+        </select>
+        <br><br>
+        <input type="submit" class="btn btn-info btn-sm" value="search">
+
+
+
+
+
+    </form>
+</div>
+
+</section>
+
+</body>
+</html>

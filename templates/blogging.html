@@ -10,18 +10,26 @@
 <a href="/blog" class="btn btn-dark">Post Blog</a>
 <a href="/index3" class="btn btn-dark">Home</a>
 <br>
+{% if session['userkey'] %}
+<h5 class="text-right">
+    <b>welcome:{{ session['userkey'] }}</b>
+    <a href="/logout" class="btn btn-warning">logout</a>
 
+</h5>
+{% endif %}
 <section class="row">
    <div class="col-md-3">TODO</div>
     <div class="col-md-6">
         <h5>{{ msg }}</h5>
-Search
+
         {% for row in rows %}
             <b>{{ row[1] }}</b><br>
             <i class="text-info"> {{ row[2] }}</i>
             <p class="text-muted">{{ row[3] }}</p>
             <p class="text-right"> {{ row[4] }}</p>
-            <p><a href="">delete</a>
+            <p><a href="/deleteblog/{{ row[0] }}" onclick="return confirm('are you sure?')">delete</a><!-- #asks the user if they are sure
+                they want to delete a record , when the user clicks yes the commented is deleted via route /deleteblog
+                We use the id column to specify which blog to delete(we parse the message id)-->
 
                 <a href="">comment</a>
                 <a href="">like</a> </p>
