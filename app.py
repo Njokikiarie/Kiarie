@@ -275,11 +275,85 @@ def deleteCustomer(nameid):
         cursor.execute(sql)
         rows = cursor.fetchall()
 
-        return render_template('/customers.html', msg2= nameid+" ,deleted" , rows=rows)
+        return render_template('customers.html', msg2= nameid+" ,deleted" , rows=rows)
 
     except:
         con.rollback()
         return redirect('/customers')
+
+
+
+
+#data science
+import pandas
+import matplotlib.pyplot as plt
+@app.route('/analysis')
+def analysis():
+    #libraries used for data analysis:
+    #1.pandas -basic anaylsis, data structuring
+    #2.visualization: for plotting graphs like matplotlib,seaborn,plotly
+    con=pymysql.connect("localhost" ,"root", "","grace_db")
+    dataframe = pandas.read_sql("select MonthlyPremium ,LastClaim, TotalClaim from customers", con)
+    #print(dataframe['Coverage'])
+    #print(dataframe.describe())
+
+    years =[2010,2012,2014,2016,2018,2020]
+    budget=[20000,15000,52222,78000,56712,89000]
+
+    #plotting
+    plt.bar(years,budget)
+    plt.xlabel="years"
+    plt.ylabel="expense in KES"
+    plt.title="school budget distribution / yearly"
+
+    plt.savefig("static/bar.png")
+    #plt.show() -displays the graph on the console
+
+    plt.scatter(years, budget)
+    plt.xlabel = "years"
+    plt.ylabel = "expense in KES"
+    plt.title = "school budget distribution / yearly"
+
+    plt.savefig("static/scatter1.png")
+
+
+    return render_template('analysis.html')
+
+@app.route('/sales')
+def sales():
+    con=pymysql.connect("localhost","root","","grace_db")
+    #dataframe=pandas.read_sql("select * from sales2",con)
+    #print(dataframe.head()) #.head() prints the first 5, .tail()-prints the last 5
+    #print(dataframe.describe()) #describes the integers in the table eg:price,quantity. it shows basic statistics
+
+    #narrowing  down data
+    sales = pandas.read_sql("select * from sales2", con)
+    customers = sales[['name','ext price','date']]
+    #print(customers.head())
+
+    customer_group= customers.groupby('name') #group customers by name .
+    print(customer_group.size()) #gives us the number of times the customers appear on the table
+
+    sales_totals= customer_group.sum() #sums up  'ext price' per group
+    print(sales_totals)
+
+    #plot
+    sales_totals.plot(kind='bar')
+    #plt.show()
+    plt.savefig("static/sales.png")
+@app.route('/sales2')
+def sales2():
+    con=pymysql.connect("localhost","root","","grace_db")
+
+    sales = pandas.read_sql("select * from sales2", con)
+    customers = sales[['name','category','ext price','date']]
+
+    customer_group= customers.groupby(['name','category']).sum() #group customers by name .
+
+
+    customer_group.unstack().plot(kind="bar", stacked=True,title="total sales by customers")
+    plt.show()
+
 
 
 if __name__ == '__main__':
